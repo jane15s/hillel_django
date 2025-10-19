@@ -18,9 +18,13 @@ from xml.etree.ElementInclude import include
 
 from django.contrib import admin
 from django.urls import path, include
+import common_data.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+path('login/', common_data.views.login_handler),
+    path('logout/', common_data.views.logout_handler),
+    path('register/', common_data.views.register_handler),
     path('student/', include('student.urls')),
     path('teacher/', include('teacher.urls'))
 ]
