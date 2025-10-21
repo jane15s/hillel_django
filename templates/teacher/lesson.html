@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lesson {{ lesson.name }}</title>
+</head>
+<body>
+<h3>Lesson "{{ lesson.name }}" details:</h3>
+
+<div style="border: 1px solid #ccc; border-radius: 8px; padding: 10px; margin-bottom: 10px; background-color: #f9f9f9;">
+    <p><strong>Description:</strong> {{ lesson.description }}</p>
+    <p><strong>Date:</strong> {{ lesson.date }}</p>
+    <p><strong>Room:</strong> {{ lesson.room }}</p>
+    <p><strong>Homework:</strong> {{ lesson.homework }}</p>
+</div>
+
+<table border="1" cellspacing="0" cellpadding="8" style="border-collapse: collapse; width: 60%;">
+    <thead style="background-color: #f2f2f2;">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Grade</th>
+            <th>Current grade</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for student in students %}
+        <tr>
+            <td>{{ student.student.first_name }}</td>
+            <td>{{ student.student.last_name }}</td>
+            <td>
+                <form action="/teacher/lessons/{{ lesson.id }}/set_grade/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="student_id" value="{{ student.student.id }}">
+                    <select name="grade">
+                        {% for n in grade_choices %}
+                            <option value="{{ n }}">{{ n }}</option>
+                        {% endfor %}
+                    </select>
+            </td>
+            <td>
+    {% for g in grades %}
+        {% if g.student.id == student.student.id %}
+            {{ g.grade }}
+        {% endif %}
+    {% endfor %}
+</td>
+            <td>
+                    <input type="submit" value="Set grade">
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

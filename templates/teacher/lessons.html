@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lessons</title>
+</head>
+<body>
+<h1>Add lesson:</h1>
+<form action="/teacher/lessons/" method="post">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="Name">
+    <input type="text" name="description" placeholder="description">
+    <input type="date" name="date" placeholder="Date">
+    <input type="text" name="room" placeholder="Room">
+    <input type="text" name="homework" placeholder="Homework">
+    <select name="sclass_id">
+        {% for current_class in all_classes %}
+        <option value="{{ current_class.id }}">{{ current_class.class_name }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Add">
+</form>
+<br>
+<h2>Lessons:</h2>
+
+{% for lesson in lessons %}
+  <div id="lesson_{{ lesson.id }}" style="border: 1px solid #ccc; border-radius: 8px; padding: 10px; margin-bottom: 10px; background-color: #f9f9f9;">
+    <h3 style="margin-bottom: 5px;">{{ lesson.name }}</h3>
+    <p><strong>Description:</strong> {{ lesson.description }}</p>
+    <p><strong>Date:</strong> {{ lesson.date }}</p>
+    <p><strong>Room:</strong> {{ lesson.room }}</p>
+    <p><strong>Homework:</strong> {{ lesson.homework }}</p>
+  </div>
+{% empty %}
+  <p>No lessons found.</p>
+{% endfor %}
+</body>
+</html>
