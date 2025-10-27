@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lesson</title>
+</head>
+<body>
+<h1>{{ lesson.name }}</h1>
+
+<p><strong>Date:</strong> {{ lesson.date }}</p>
+<p><strong>Teacher:</strong> {{ lesson.teacher.username }}</p>
+<p><strong>Class:</strong> {{ lesson.sclass.class_name }}</p>
+<p><strong>Room:</strong> {{ lesson.room }}</p>
+<p><strong>Type:</strong> {{ lesson.lesson_type }}</p>
+<p><strong>Homework:</strong> {{ lesson.homework }}</p>
+
+<a href="{% url 'lessons' request.user.id %}">Back to Lessons</a>
+
+</body>
+</html>

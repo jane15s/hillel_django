@@ -24,3 +24,7 @@ class Grade(models.Model):
     student = ForeignKey(User, on_delete=models.CASCADE)
     lesson = ForeignKey(Lesson, on_delete=models.CASCADE)
     grade = models.IntegerField()
+    homework_grade = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ('student', 'lesson')

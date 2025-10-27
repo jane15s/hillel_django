@@ -1,12 +1,16 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 
 from common_data.models import Lesson, StudentClass, Grade, SchoolClass
 
 
-def teacher_dashboard(request):
-    pass
+def teacher_dashboard(request, teacher_id):
+    if request.method == 'GET':
+        current_teacher = get_object_or_404(User, pk=teacher_id)
+        t_lessons = Lesson.objects.filter(teacher=current_teacher)
+        return render(request, 'teacher/t_dashboard.html', {'current_teacher': current_teacher, 't_lessons': t_lessons})
+    return None
 
 class Lessons(View):
     def get(self, request, *args, **kwargs):
@@ -43,12 +47,18 @@ def lesson_details(request, lesson_id):
 def set_grade(request, lesson_id):
     if request.method == 'POST':
         current_student = User.objects.get(pk=int(request.POST["student_id"]))
-        current_grade = Grade(
-            grade=int(request.POST["grade"]),
+        # grade = int(request.POST["grade"])
+        # homework_value = int(request.POST["homework_grade"])
+        grade_obj, created = Grade.objects.get_or_create(
             student=current_student,
             lesson=Lesson.objects.get(pk=lesson_id)
         )
-        current_grade.save()
+        if request.POST.get("grade"):
+            grade_obj.grade = int(request.POST["grade"])
+        if request.POST.get("homework_grade"):
+            grade_obj.homework_grade = int(request.POST["homework_grade"])
+
+        grade_obj.save()
 
         return redirect(f'/teacher/lessons/{lesson_id}/')
     return None

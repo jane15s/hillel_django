@@ -14,13 +14,15 @@
     <p><strong>Homework:</strong> {{ lesson.homework }}</p>
 </div>
 
-<table border="1" cellspacing="0" cellpadding="8" style="border-collapse: collapse; width: 60%;">
+<table border="1" cellspacing="0" cellpadding="8" style="border-collapse: collapse; width: 80%;">
     <thead style="background-color: #f2f2f2;">
         <tr>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Grade</th>
-            <th>Current grade</th>
+            <th>Homework Grade</th>
+            <th>Current Grade</th>
+            <th>Current Homework</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -34,18 +36,34 @@
                     {% csrf_token %}
                     <input type="hidden" name="student_id" value="{{ student.student.id }}">
                     <select name="grade">
+                        <option value="" selected>-</option>
+                        {% for n in grade_choices %}
+                            <option value="{{ n }}">{{ n }}</option>
+                        {% endfor %}
+                    </select>
+                    </td>
+            <td>
+                    <select name="homework_grade">
+                        <option value="" selected>-</option>
                         {% for n in grade_choices %}
                             <option value="{{ n }}">{{ n }}</option>
                         {% endfor %}
                     </select>
             </td>
             <td>
-    {% for g in grades %}
-        {% if g.student.id == student.student.id %}
-            {{ g.grade }}
-        {% endif %}
-    {% endfor %}
-</td>
+                {% for g in grades %}
+                    {% if g.student.id == student.student.id %}
+                        {{ g.grade }}
+                    {% endif %}
+                {% endfor %}
+            </td>
+            <td>
+                {% for g in grades %}
+                    {% if g.student.id == student.student.id %}
+                        {{ g.homework_grade }}
+                    {% endif %}
+                {% endfor %}
+            </td>
             <td>
                     <input type="submit" value="Set grade">
                 </form>

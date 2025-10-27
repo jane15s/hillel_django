@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Student Dashboard</h1>
+<p>Class: {{ student_class.class_name }}</p>
+
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Lesson</th>
+        <th>Date</th>
+        <th>Teacher</th>
+        <th>Class Grade</th>
+        <th>Homework</th>
+        <th>Homework Grade</th>
+    </tr>
+    {% for lesson in lessons %}
+    <tr>
+        <td>{{ lesson.name }}</td>
+        <td>{{ lesson.date }}</td>
+        <td>{{ lesson.teacher.username }}</td>
+        <td>
+            {% with found_grade=None %}
+                {% for g in grades %}
+                    {% if g.lesson.id == lesson.id %}
+                        {% with found_grade=g.grade %}
+                        {% endwith %}
+                    {% endif %}
+                {% endfor %}
+                {{ found_grade|default:"-" }}
+            {% endwith %}
+        </td>
+        <td>{{ lesson.homework }}</td>
+        <td>
+            {% with found_hw_grade=None %}
+                {% for g in grades %}
+                    {% if g.lesson.id == lesson.id %}
+                        {% with found_hw_grade=g.homework_grade %}
+                        {% endwith %}
+                    {% endif %}
+                {% endfor %}
+                {{ found_hw_grade|default:"-" }}
+            {% endwith %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<br>
+<a href="{% url 'lessons' student_id=student_id %}" style="padding: 10px 15px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">
+    View My Lessons
+</a>
+</body>
+</html>

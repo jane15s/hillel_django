@@ -25,6 +25,6 @@ urlpatterns = [
 path('login/', common_data.views.login_handler),
     path('logout/', common_data.views.logout_handler),
     path('register/', common_data.views.register_handler),
-    path('student/', include('student.urls')),
+    path('student/<int:student_id>/', include('student.urls')),
     path('teacher/', include('teacher.urls'))
 ]

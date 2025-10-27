@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+<body>
+
+<h2>{{ current_teacher.first_name }} {{ current_teacher.last_name }}</h2>
+<h3>Lessons:</h3>
+<ul>
+{% for lesson in t_lessons %}
+    <li>{{ lesson.date }} — {{ lesson.name }}</li>
+{% empty %}
+    <li>No lessons yet.</li>
+{% endfor %}
+</ul>
+
+
+</body>
+</html>
