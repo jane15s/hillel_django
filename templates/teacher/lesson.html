@@ -5,72 +5,81 @@
     <title>Lesson {{ lesson.name }}</title>
 </head>
 <body>
-<h3>Lesson "{{ lesson.name }}" details:</h3>
 
-<div style="border: 1px solid #ccc; border-radius: 8px; padding: 10px; margin-bottom: 10px; background-color: #f9f9f9;">
+<h2>Lesson "{{ lesson.name }}" details:</h2>
+
+<div style="border: 1px solid #ccc; border-radius: 8px; padding: 10px; margin-bottom: 20px; background-color: #f9f9f9;">
     <p><strong>Description:</strong> {{ lesson.description }}</p>
     <p><strong>Date:</strong> {{ lesson.date }}</p>
     <p><strong>Room:</strong> {{ lesson.room }}</p>
     <p><strong>Homework:</strong> {{ lesson.homework }}</p>
 </div>
 
+<h3>Set grade:</h3>
+
+<form action="/teacher/{{ lesson.teacher.id }}/lessons/{{ lesson.id }}/set_grade/" method="post" style="margin-bottom: 30px;">
+    {% csrf_token %}
+
+    <label><strong>Student:</strong></label><br>
+    <select name="student_id" required style="margin-bottom: 10px;">
+        <option value="">Select student</option>
+        {% for student in students %}
+            <option value="{{ student.student.id }}">
+                {{ student.student.first_name }} {{ student.student.last_name }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+
+    <label><strong>Grade:</strong></label><br>
+    <select name="grade" style="margin-bottom: 10px;">
+        <option value="">-</option>
+        {% for n in grade_choices %}
+            <option value="{{ n }}">{{ n }}</option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+
+    <label><strong>Homework Grade:</strong></label><br>
+    <select name="homework_grade" style="margin-bottom: 15px;">
+        <option value="">-</option>
+        {% for n in grade_choices %}
+            <option value="{{ n }}">{{ n }}</option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+
+    <button type="submit">Set grade</button>
+</form>
+
+<h3>Existing grades:</h3>
+
 <table border="1" cellspacing="0" cellpadding="8" style="border-collapse: collapse; width: 80%;">
     <thead style="background-color: #f2f2f2;">
         <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Student</th>
             <th>Grade</th>
             <th>Homework Grade</th>
-            <th>Current Grade</th>
-            <th>Current Homework</th>
-            <th>Action</th>
         </tr>
     </thead>
+
     <tbody>
-    {% for student in students %}
+    {% for g in grades %}
         <tr>
-            <td>{{ student.student.first_name }}</td>
-            <td>{{ student.student.last_name }}</td>
-            <td>
-                <form action="/teacher/{{ lesson.teacher.id }}/lessons/{{ lesson.id }}/set_grade/" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="student_id" value="{{ student.student.id }}">
-                    <select name="grade">
-                        <option value="" selected>-</option>
-                        {% for n in grade_choices %}
-                            <option value="{{ n }}">{{ n }}</option>
-                        {% endfor %}
-                    </select>
-                    </td>
-            <td>
-                    <select name="homework_grade">
-                        <option value="" selected>-</option>
-                        {% for n in grade_choices %}
-                            <option value="{{ n }}">{{ n }}</option>
-                        {% endfor %}
-                    </select>
-            </td>
-            <td>
-                {% for g in grades %}
-                    {% if g.student.id == student.student.id %}
-                        {{ g.grade }}
-                    {% endif %}
-                {% endfor %}
-            </td>
-            <td>
-                {% for g in grades %}
-                    {% if g.student.id == student.student.id %}
-                        {{ g.homework_grade }}
-                    {% endif %}
-                {% endfor %}
-            </td>
-            <td>
-                    <input type="submit" value="Set grade">
-                </form>
-            </td>
+            <td>{{ g.student.first_name }} {{ g.student.last_name }}</td>
+            <td>{{ g.grade|default:"-" }}</td>
+            <td>{{ g.homework_grade|default:"-" }}</td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="3" style="text-align: center;">No grades yet</td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
+
 </body>
 </html>

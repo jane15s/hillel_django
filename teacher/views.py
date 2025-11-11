@@ -62,18 +62,38 @@ def lesson_details(request, teacher_id, lesson_id):
 
 @check_if_teacher
 def set_grade(request, teacher_id, lesson_id):
-    if request.method == 'POST':
-        current_student = User.objects.get(pk=int(request.POST["student_id"]))
-        grade_obj, created = Grade.objects.get_or_create(
-            student=current_student,
-            lesson=Lesson.objects.get(pk=lesson_id)
-        )
-        if request.POST.get("grade"):
-            grade_obj.grade = int(request.POST["grade"])
-        if request.POST.get("homework_grade"):
-            grade_obj.homework_grade = int(request.POST["homework_grade"])
-
-        grade_obj.save()
-
+    if request.method != 'POST':
         return redirect(f'/teacher/{teacher_id}/lessons/{lesson_id}/')
-    return None
+
+    lesson = get_object_or_404(Lesson, pk=lesson_id)
+    student_id = request.POST.get("student_id")
+    if not student_id:
+        return redirect(f'/teacher/{teacher_id}/lessons/{lesson_id}/')
+    student = get_object_or_404(User, pk=int(student_id))
+
+    grade_value = request.POST.get("grade")
+    hw_value = request.POST.get("homework_grade")
+
+    if grade_value == "" and hw_value == "":
+        return redirect(f'/teacher/{teacher_id}/lessons/{lesson_id}/')
+
+    try:
+        g = Grade.objects.get(student=student, lesson=lesson)
+        if grade_value != "":
+            g.grade = int(grade_value)
+        if hw_value != "":
+            g.homework_grade = int(hw_value)
+        g.save()
+    except Grade.DoesNotExist:
+        if grade_value == "":
+            grade_value = 0
+        g = Grade(
+            student=student,
+            lesson=lesson,
+            grade=int(grade_value)
+        )
+        if hw_value != "":
+            g.homework_grade = int(hw_value)
+        g.save()
+
+    return redirect(f'/teacher/{teacher_id}/lessons/{lesson_id}/')
