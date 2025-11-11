@@ -1,10 +1,20 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 
 from common_data.models import Lesson, StudentClass, Grade, SchoolClass
 
+def check_if_teacher(func):
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect("/login/")
+        if not request.user.groups.filter(name='teacher').exists():
+            raise PermissionDenied("Teacher access only")
+        return func(request, *args, **kwargs)
+    return wrapper
 
+@check_if_teacher
 def teacher_dashboard(request, teacher_id):
     if request.method == 'GET':
         current_teacher = get_object_or_404(User, pk=teacher_id)
@@ -13,11 +23,16 @@ def teacher_dashboard(request, teacher_id):
     return None
 
 class Lessons(View):
-    def get(self, request, *args, **kwargs):
+    @staticmethod
+    @check_if_teacher
+    def get(request, *args, **kwargs):
         all_lessons = Lesson.objects.all()
         all_classes = SchoolClass.objects.all()
         return render(request, 'teacher/lessons.html', {'lessons': all_lessons, 'all_classes': all_classes})
-    def post(self, request, *args, **kwargs):
+
+    @staticmethod
+    @check_if_teacher
+    def post(request, *args, **kwargs):
         current_class_id = int(request.POST["sclass_id"])
         current_class = SchoolClass.objects.get(pk=current_class_id)
 
@@ -31,10 +46,11 @@ class Lessons(View):
             teacher=request.user
         )
         current_lesson.save()
-        return redirect(f'/teacher/lessons/#lesson_{current_lesson.id}')
+        teacher_id = kwargs.get("teacher_id")
+        return redirect(f'/teacher/{teacher_id}/lessons/#lesson_{current_lesson.id}')
 
-
-def lesson_details(request, lesson_id):
+@check_if_teacher
+def lesson_details(request, teacher_id, lesson_id):
     if request.method == 'GET':
         current_lesson = Lesson.objects.get(pk=lesson_id)
         grades = Grade.objects.filter(lesson=current_lesson)
@@ -44,11 +60,10 @@ def lesson_details(request, lesson_id):
         return render(request, 'teacher/lesson.html', {'lesson': current_lesson, 'grades': grades, 'students': current_students, 'grade_choices': grade_choices})
     return None
 
-def set_grade(request, lesson_id):
+@check_if_teacher
+def set_grade(request, teacher_id, lesson_id):
     if request.method == 'POST':
         current_student = User.objects.get(pk=int(request.POST["student_id"]))
-        # grade = int(request.POST["grade"])
-        # homework_value = int(request.POST["homework_grade"])
         grade_obj, created = Grade.objects.get_or_create(
             student=current_student,
             lesson=Lesson.objects.get(pk=lesson_id)
@@ -60,5 +75,5 @@ def set_grade(request, lesson_id):
 
         grade_obj.save()
 
-        return redirect(f'/teacher/lessons/{lesson_id}/')
+        return redirect(f'/teacher/{teacher_id}/lessons/{lesson_id}/')
     return None

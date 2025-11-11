@@ -32,7 +32,7 @@
             <td>{{ student.student.first_name }}</td>
             <td>{{ student.student.last_name }}</td>
             <td>
-                <form action="/teacher/lessons/{{ lesson.id }}/set_grade/" method="post">
+                <form action="/teacher/{{ lesson.teacher.id }}/lessons/{{ lesson.id }}/set_grade/" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="student_id" value="{{ student.student.id }}">
                     <select name="grade">

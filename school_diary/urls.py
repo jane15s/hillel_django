@@ -22,9 +22,10 @@ import common_data.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-path('login/', common_data.views.login_handler),
+    path('login/', common_data.views.login_handler),
     path('logout/', common_data.views.logout_handler),
     path('register/', common_data.views.register_handler),
+    path('profile/', common_data.views.profile_view),
     path('student/<int:student_id>/', include('student.urls')),
-    path('teacher/', include('teacher.urls'))
+    path('teacher/<int:teacher_id>/', include('teacher.urls'))
 ]

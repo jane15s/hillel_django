@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Add lesson:</h1>
-<form action="/teacher/lessons/" method="post">
+<form action="/teacher/{{ request.user.id }}/lessons/" method="post">
     {% csrf_token %}
     <input type="text" name="name" placeholder="Name">
     <input type="text" name="description" placeholder="description">
@@ -30,6 +30,10 @@
     <p><strong>Date:</strong> {{ lesson.date }}</p>
     <p><strong>Room:</strong> {{ lesson.room }}</p>
     <p><strong>Homework:</strong> {{ lesson.homework }}</p>
+          <a href="/teacher/{{ request.user.id }}/lessons/{{ lesson.id }}/"
+       style="padding: 6px 12px; background: #4da3ff; color: white; border-radius: 5px; text-decoration: none;">
+        View Details
+    </a>
   </div>
 {% empty %}
   <p>No lessons found.</p>
