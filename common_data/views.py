@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
@@ -18,11 +18,6 @@ def login_handler(request):
             return render(request, 'login.html',{'error': 'User has no role'})
         return render(request, 'login.html', {'error': 'Invalid credentials'})
     return render(request, 'login.html')
-            # return render(request, 'profile.html', {'user': user})
-    #     else:
-    #         return render(request, 'login.html', {'error': 'Invalid username or password'})
-    # else:
-    #     return render(request, 'login.html')
 
 def logout_handler(request):
     logout(request)
@@ -35,13 +30,23 @@ def register_handler(request):
         email = request.POST["email"]
         username = request.POST["username"]
         password = request.POST["password"]
+        role = request.POST["role"]
         try:
             User.objects.get(username=username)
             return render(request, 'login.html', {'error': 'Username already exists'})
         except User.DoesNotExist:
             pass
         new_user = User.objects.create_user(first_name=first_name, last_name=last_name, email=email, username=username, password=password)
+
+
+        if role.lower() == "teacher":
+            new_user.groups.add(Group.objects.get(name='teacher'))
+            new_user.is_active = False
+        else:
+            new_user.groups.add(Group.objects.get(name='student'))
+
         new_user.save()
+
         return redirect('/login')
     else:
         return render(request, 'register.html')
