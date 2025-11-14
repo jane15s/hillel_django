@@ -1,0 +1,265 @@
+[
+  {
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+      "name": "student",
+      "permissions": []
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 2,
+    "fields": {
+      "name": "teacher",
+      "permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$UWoXRV5bgpQfYObT1yW7Hu$i6q9rg8i6aKG7tRblaUyFwdzLar2v1n2sZBCkdJwc50=",
+      "last_login": "2025-11-11T19:20:25.321Z",
+      "is_superuser": false,
+      "username": "user_1",
+      "first_name": "user1",
+      "last_name": "user1",
+      "email": "user1@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-10-19T19:17:35Z",
+      "groups": [1],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$Luku2R6uL0Y3mgyY6gzjgn$jkWwsP1AGNldPB99LQN2Pe7NHJ1mq+3+q/AFIXGq3/A=",
+      "last_login": "2025-10-27T15:24:58Z",
+      "is_superuser": false,
+      "username": "user_2",
+      "first_name": "user2",
+      "last_name": "user2",
+      "email": "user2@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-10-20T13:39:56Z",
+      "groups": [1],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$Q5NqTa7SE7aHJp27M7hGId$73ROsPL+GsGAtMARgc231i5iDh5Os6CEy2jAzigk5ts=",
+      "last_login": "2025-10-20T13:40:50Z",
+      "is_superuser": false,
+      "username": "user_3",
+      "first_name": "user3",
+      "last_name": "user3",
+      "email": "user3@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-10-20T13:40:41Z",
+      "groups": [1],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$eqPu1dMAmQEh7JOONi54d3$RbjmHsmY9TkV6+Z4M5EgBwD5zJe2ZrSJVIVXCJt3WGU=",
+      "last_login": "2025-11-11T19:21:45.328Z",
+      "is_superuser": false,
+      "username": "teacher_1",
+      "first_name": "teacher1",
+      "last_name": "teacher1",
+      "email": "teacher1@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-10-20T13:41:23Z",
+      "groups": [2],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$swiIqDQwkxwn6qZrMzTIqE$clR8/zPylCGfhxBGcmvOVA9TECiDNqw1o5c2SOvRbeg=",
+      "last_login": "2025-10-21T13:04:54Z",
+      "is_superuser": false,
+      "username": "teacher_2",
+      "first_name": "teacher2",
+      "last_name": "teacher2",
+      "email": "teacher2@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-10-21T13:04:46Z",
+      "groups": [2],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 7,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$t38VNJfOZL7ggFPSdhOpqq$+kEWoPizMOrYLNvr7LMnmwT0vrQ7wKLz3nIwt55NeKo=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user_4",
+      "first_name": "user4",
+      "last_name": "user4",
+      "email": "user4@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-11-11T20:56:38.554Z",
+      "groups": [1],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 8,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$sehoPUbQYRt9hd9Bbnf6Go$TTFmLNVnGPEHMvITCywdMzUvx9FXUNUuYVpYibDuf98=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "teacher_3",
+      "first_name": "teacher3",
+      "last_name": "teacher3",
+      "email": "teacher3@example.com",
+      "is_staff": false,
+      "is_active": false,
+      "date_joined": "2025-11-11T20:57:21.997Z",
+      "groups": [2],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "common_data.schoolclass",
+    "pk": 1,
+    "fields": {
+      "class_name": "5A"
+    }
+  },
+  {
+    "model": "common_data.schoolclass",
+    "pk": 2,
+    "fields": {
+      "class_name": "6A"
+    }
+  },
+  {
+    "model": "common_data.schoolclass",
+    "pk": 3,
+    "fields": {
+      "class_name": "7A"
+    }
+  },
+  {
+    "model": "common_data.studentclass",
+    "pk": 1,
+    "fields": {
+      "student": 2,
+      "sclass": 1
+    }
+  },
+  {
+    "model": "common_data.studentclass",
+    "pk": 2,
+    "fields": {
+      "student": 3,
+      "sclass": 1
+    }
+  },
+  {
+    "model": "common_data.studentclass",
+    "pk": 3,
+    "fields": {
+      "student": 1,
+      "sclass": 2
+    }
+  },
+  {
+    "model": "common_data.lesson",
+    "pk": 1,
+    "fields": {
+      "name": "History1",
+      "description": "Ukraine's history",
+      "date": "2025-10-20",
+      "teacher": 4,
+      "sclass": 1,
+      "homework": "chapter1",
+      "room": "1",
+      "lesson_type": null
+    }
+  },
+  {
+    "model": "common_data.lesson",
+    "pk": 2,
+    "fields": {
+      "name": "Math1",
+      "description": "simple math",
+      "date": "2025-10-20",
+      "teacher": 5,
+      "sclass": 1,
+      "homework": "chapter1",
+      "room": "2",
+      "lesson_type": null
+    }
+  },
+  {
+    "model": "common_data.lesson",
+    "pk": 3,
+    "fields": {
+      "name": "Math2",
+      "description": "math",
+      "date": "2025-10-21",
+      "teacher": 5,
+      "sclass": 1,
+      "homework": "chapter2",
+      "room": "2",
+      "lesson_type": null
+    }
+  },
+  {
+    "model": "common_data.lesson",
+    "pk": 4,
+    "fields": {
+      "name": "History2",
+      "description": "global history",
+      "date": "2025-11-11",
+      "teacher": 4,
+      "sclass": 1,
+      "homework": "chapter2",
+      "room": "1",
+      "lesson_type": null
+    }
+  },
+  {
+    "model": "common_data.grade",
+    "pk": 1,
+    "fields": {
+      "student": 2,
+      "lesson": 1,
+      "grade": 9,
+      "homework_grade": 10
+    }
+  },
+  {
+    "model": "common_data.grade",
+    "pk": 2,
+    "fields": {
+      "student": 3,
+      "lesson": 1,
+      "grade": 9,
+      "homework_grade": 12
+    }
+  }
+]
